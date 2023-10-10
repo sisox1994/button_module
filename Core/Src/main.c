@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "button.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,6 +59,74 @@ static void MX_CAN_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+void button_gpio_status_handler(uint8_t gpio_num, ButtonStatusDefinition_t *button_status){
+
+  if(gpio_num == 0){
+      // INFO
+      if(HAL_GPIO_ReadPin(SW_INFO_GPIO_Port,SW_INFO_Pin) == GPIO_PIN_RESET)  
+        *button_status = BUTTON_STATUS_PRESSED;
+      else                                                                   
+        *button_status = BUTTON_STATUS_RELEASE;
+  }
+
+  if(gpio_num == 1){
+      // UP
+      if(HAL_GPIO_ReadPin(SW_UP_GPIO_Port,SW_UP_Pin) == GPIO_PIN_RESET)
+        *button_status = BUTTON_STATUS_PRESSED;
+      else                                                                   
+        *button_status = BUTTON_STATUS_RELEASE;
+  }
+
+  if(gpio_num == 2){
+      // DOWN
+      if(HAL_GPIO_ReadPin(SW_DOWN_GPIO_Port,SW_DOWN_Pin) == GPIO_PIN_RESET)
+        *button_status = BUTTON_STATUS_PRESSED;
+      else                                                                   
+        *button_status = BUTTON_STATUS_RELEASE;
+  }
+
+  if(gpio_num == 3){
+      // LIGHT
+      if(HAL_GPIO_ReadPin(SW_LIGHT_GPIO_Port,SW_LIGHT_Pin) == GPIO_PIN_RESET)
+        *button_status = BUTTON_STATUS_PRESSED;
+      else                                                                   
+        *button_status = BUTTON_STATUS_RELEASE;
+  } 
+
+  if(gpio_num == 4){
+      // PWR
+      if(HAL_GPIO_ReadPin(SW_PWR_GPIO_Port,SW_PWR_Pin) == GPIO_PIN_RESET)
+        *button_status = BUTTON_STATUS_PRESSED;
+      else                                                                   
+        *button_status = BUTTON_STATUS_RELEASE;
+  } 
+
+  if(gpio_num == 5){
+      // WALK_ASSIST
+      if(HAL_GPIO_ReadPin(SW_WALK_ASSIST_GPIO_Port,SW_WALK_ASSIST_Pin) == GPIO_PIN_RESET)
+        *button_status = BUTTON_STATUS_PRESSED;
+      else                                                                   
+        *button_status = BUTTON_STATUS_RELEASE;
+  } 
+
+  if(gpio_num == 6){
+      // SMART_ASSIST
+      if(HAL_GPIO_ReadPin(SW_SMART_ASSIST_GPIO_Port,SW_SMART_ASSIST_Pin) == GPIO_PIN_RESET)
+        *button_status = BUTTON_STATUS_PRESSED;
+      else                                                                   
+        *button_status = BUTTON_STATUS_RELEASE;
+  } 
+
+  
+  __ASM("NOP");
+}
+
+void button_event_handler(uint8_t gpio_num, ButtonPressType_t *btn_press_type, ButtonComboStatus_t *btn_combo_status){
+
+   __ASM("NOP");
+}
+
+
 /* USER CODE END 0 */
 
 /**
@@ -91,6 +160,7 @@ int main(void)
   MX_CAN_Init();
   /* USER CODE BEGIN 2 */
 
+	button_initial(BUTTON_AMOUNT_7, button_gpio_status_handler, button_event_handler);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,6 +171,7 @@ int main(void)
 		if(T_1ms){
 			T_1ms = 0;
 			
+			button_process();
 		}
 		
 		__ASM("NOP");
