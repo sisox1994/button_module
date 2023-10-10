@@ -67,10 +67,10 @@ void Error_Handler(void);
 #define SW_LIGHT_GPIO_Port GPIOA
 #define SW_PWR_Pin GPIO_PIN_10
 #define SW_PWR_GPIO_Port GPIOA
-#define SW_WALK_ASSIT_Pin GPIO_PIN_15
-#define SW_WALK_ASSIT_GPIO_Port GPIOA
-#define SW_SMART_ASSIT_Pin GPIO_PIN_4
-#define SW_SMART_ASSIT_GPIO_Port GPIOB
+#define SW_WALK_ASSIST_Pin GPIO_PIN_15
+#define SW_WALK_ASSIST_GPIO_Port GPIOA
+#define SW_SMART_ASSIST_Pin GPIO_PIN_4
+#define SW_SMART_ASSIST_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

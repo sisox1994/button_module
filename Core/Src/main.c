@@ -196,14 +196,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /*Configure GPIO pins : SW_INFO_Pin SW_UP_Pin SW_SMART_ASSIT_Pin */
-  GPIO_InitStruct.Pin = SW_INFO_Pin|SW_UP_Pin|SW_SMART_ASSIT_Pin;
+  /*Configure GPIO pins : SW_INFO_Pin SW_UP_Pin SW_SMART_ASSIST_Pin */
+  GPIO_InitStruct.Pin = SW_INFO_Pin|SW_UP_Pin|SW_SMART_ASSIST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SW_DOWN_Pin SW_LIGHT_Pin SW_WALK_ASSIT_Pin */
-  GPIO_InitStruct.Pin = SW_DOWN_Pin|SW_LIGHT_Pin|SW_WALK_ASSIT_Pin;
+  /*Configure GPIO pins : SW_DOWN_Pin SW_LIGHT_Pin SW_WALK_ASSIST_Pin */
+  GPIO_InitStruct.Pin = SW_DOWN_Pin|SW_LIGHT_Pin|SW_WALK_ASSIST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
