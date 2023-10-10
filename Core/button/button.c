@@ -14,8 +14,9 @@ void button_initial(uint8_t amount, ButtonStatus_Handler bs_handler, ButtonEvent
   button_arr    = malloc(sizeof(ButtonInstance_t) * amount);
   button_amount = amount;
   
-  button_combo.arr  = malloc(sizeof(uint8_t) * amount);
-  
+  button_combo.co  = malloc(sizeof(Combo_t)                * amount);
+  button_combo.re  = malloc(sizeof(ButtonPressTypeCombo_t) * amount);
+	
   for(int i = 0; i < button_amount; i++){
     button_arr[i].status_handler = bs_handler;
     button_arr[i].event_handler  = evt_handler;

@@ -39,17 +39,6 @@ typedef enum{
 
 typedef enum{
 
-	BUTTON_COMBO_PHASE_0 = 0x0,
-	BUTTON_COMBO_PHASE_1 = 0x1,
-	BUTTON_COMBO_PHASE_2 = 0x2,
-	BUTTON_COMBO_PHASE_3 = 0x3,
-	BUTTON_COMBO_PHASE_4 = 0x4,
-	BUTTON_COMBO_PHASE_5 = 0x5
-
-}ButtonComboPhase_t;
-
-typedef enum{
-
 	BUTTON_NOT_PRESS,
 	BUTTON_CLICK_SINGLE,
 	BUTTON_CLICK_DOUBLE,
@@ -57,12 +46,33 @@ typedef enum{
   
 }ButtonPressType_t;
 
+typedef enum{
+
+	COMBO_NULL,
+	COMBO_X,
+	COMBO_V,
+
+}Combo_t;
+
+typedef enum{
+
+	COMBO_BUTTON_NOT_PRESS,
+	COMBO_BUTTON_CLICK_SINGLE_A,
+	COMBO_BUTTON_CLICK_DOUBLE_B,
+	COMBO_BUTTON_LONG_PRESS_C,
+	COMBO_BUTTON_LONG_PRESS_D,
+	
+}ButtonPressTypeCombo_t;
+
+
 typedef struct{
 
-  ButtonComboPhase_t  phase;
-  uint8_t             *arr;
-  uint16_t            cnt;
-  uint8_t             amount;
+
+  Combo_t                 *co;
+  ButtonPressTypeCombo_t  *re;
+  uint16_t                detect_cnt;
+  uint16_t                holding_cnt;
+  uint8_t                 amount;
   
 }ButtonComboStatus_t;
 
