@@ -42,6 +42,7 @@
 /* Private variables ---------------------------------------------------------*/
 CAN_HandleTypeDef hcan;
 
+uint8_t T_1ms;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -96,6 +97,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		
+		if(T_1ms){
+			T_1ms = 0;
+			
+		}
+		
 		__ASM("NOP");
     /* USER CODE END WHILE */
 
