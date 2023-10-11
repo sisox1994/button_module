@@ -21,68 +21,86 @@
 // 
 typedef enum{
 
-	BUTTON_STATUS_PRESSED = 0x0,
-	BUTTON_STATUS_RELEASE = 0x1
+  BUTTON_STATUS_PRESSED = 0x0,
+  BUTTON_STATUS_RELEASE = 0x1
 
 }ButtonStatusDefinition_t;
 
 typedef enum{
 
-	BUTTON_DET_PHASE_0 = 0x0,
-	BUTTON_DET_PHASE_1 = 0x1,
-	BUTTON_DET_PHASE_2 = 0x2,
-	BUTTON_DET_PHASE_3 = 0x3,
-	BUTTON_DET_PHASE_4 = 0x4,
-	BUTTON_DET_PHASE_5 = 0x5
+  BUTTON_DET_PHASE_0 = 0x0,
+  BUTTON_DET_PHASE_1 = 0x1,
+  BUTTON_DET_PHASE_2 = 0x2,
+  BUTTON_DET_PHASE_3 = 0x3,
+  BUTTON_DET_PHASE_4 = 0x4,
+  BUTTON_DET_PHASE_5 = 0x5
 
 }ButtonDetectionPhase_t;
 
 typedef enum{
 
-	BUTTON_NOT_PRESS,
-	BUTTON_CLICK_SINGLE,
-	BUTTON_CLICK_DOUBLE,
-	BUTTON_LONG_PRESS,
-  
+  BUTTON_NOT_PRESS,
+  BUTTON_CLICK_SINGLE,
+  BUTTON_CLICK_DOUBLE,
+  BUTTON_LONG_PRESS,
+
 }ButtonPressType_t;
+
 
 typedef enum{
 
-	COMBO_NULL,
-	COMBO_X,
-	COMBO_V,
+  EVENT_NOT_TRIGGERED,
+  EVENT_TRIGGERED,
+
+}EventTrigger_t;
+
+typedef enum{
+
+  COMBO_NULL,
+  COMBO_X,
+  COMBO_V,
 
 }Combo_t;
 
 typedef enum{
 
-	COMBO_BUTTON_NOT_PRESS,
-	COMBO_BUTTON_CLICK_SINGLE_A,
-	COMBO_BUTTON_CLICK_DOUBLE_B,
-	COMBO_BUTTON_LONG_PRESS_C,
-	COMBO_BUTTON_LONG_PRESS_D,
-	
+  COMBO_BUTTON_NOT_PRESS,
+  COMBO_BUTTON_CLICK_SINGLE_A,
+  COMBO_BUTTON_CLICK_DOUBLE_B,
+  COMBO_BUTTON_LONG_PRESS_C,
+  COMBO_BUTTON_LONG_PRESS_D,
+
 }ButtonPressTypeCombo_t;
 
+typedef enum{
 
-typedef struct{
+  COMBO_DETECT_PENDING,
+  COMBO_DETECT_READY,       // combo_detect_cnt = 0
+  COMBO_DETECT_INPROGRESS,  // combo_detect_cnt < COMBO_DETECT_INTERVAL  combo_detect_cnt++
+  COMBO_DETECT_FINISHED,    // combo_detect_cnt >= COMBO_DETECT_INTERVAL
 
-
-  Combo_t                 *co;
-  ButtonPressTypeCombo_t  *re;
-  uint16_t                detect_cnt;
-  uint16_t                holding_cnt;
-  uint8_t                 amount;
-  
-}ButtonComboStatus_t;
+}ComboDetectionState_t;
 
 
 typedef void(*ButtonStatus_Handler)(uint8_t gpio_num, ButtonStatusDefinition_t *btn_status);
-typedef void(*ButtonEvent_Handler)(uint8_t gpio_num, ButtonPressType_t *btn_press_type, ButtonComboStatus_t *btn_combo_status);
+typedef void(*ButtonEvent_Handler)(ButtonPressTypeCombo_t btn_combo_press_type, Combo_t combo[7]);
+typedef void(*ButtonComboCnt_Handler)(uint16_t combo_cnt);
 
 
 #pragma pack(push)   // preserves the current alignment setting.
 #pragma pack(1)      // directive aligns structure members tightly in sequential order without padding, conserving memory by avoiding unnecessary gaps.
+
+typedef struct{
+
+  Combo_t                 *co;
+  ButtonPressTypeCombo_t  *re;
+
+  uint16_t                detect_cnt;
+  uint16_t                holding_cnt;
+  ComboDetectionState_t   detect_state;
+  ButtonComboCnt_Handler  combo_cnt_handler;
+
+}ButtonComboStatus_t;
 
 typedef struct{
 
@@ -92,18 +110,18 @@ typedef struct{
     uint16_t               cnt3;
     ButtonDetectionPhase_t phase;
   }detect;
-  
+
   ButtonStatus_Handler      status_handler;
   ButtonStatusDefinition_t  status;
   ButtonPressType_t         press_type;
   ButtonEvent_Handler       event_handler;
-  
+
 }ButtonInstance_t;
 
 
 #pragma pack(pop)   //restores the original alignment setting.
 
-void button_initial(uint8_t amount, ButtonStatus_Handler bs_handler, ButtonEvent_Handler evt_handler);
+void button_initial(uint8_t amount, ButtonStatus_Handler bs_handler, ButtonEvent_Handler evt_handler, ButtonComboCnt_Handler combo_cnt_handler);
 void button_process(void);
 
 
